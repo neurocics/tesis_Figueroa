@@ -21,9 +21,9 @@ clear
 % SET variables per subjet 
 
 % names of subejto to build  file and directories
-GR = '';
-SU = 'GADM_08111983';
-DATA = '26112021';
+GR = 'pacientes';
+SU = 'CAMS_24101973';
+DATA = '09032023';
 TAREA = 'WM';
 % cases:  'WM' for working memory ,
 %         'RL' for reversal learning 
@@ -86,9 +86,9 @@ end
 %PATH_LOG = '/Volumes/GoogleDrive-103235447575506129142/Mi unidad/DATA/PARTICIPANTES/%S/LOG/';
 %PATH_TOBI =  '/Volumes/GoogleDrive-103235447575506129142/Mi unidad/DATA/PARTICIPANTES/%S/EYE/';
 %PATH_D =  '/Volumes/GoogleDrive-103235447575506129142/Mi unidad/DATA/PARTICIPANTES/%S/EEG/';
-PATH_LOG = '/Volumes/DBNC_03/neuroCOVID/DATA/%S/LOG/';
-PATH_TOBI =  '/Volumes/DBNC_03/neuroCOVID/DATA/%S/EYE/';
-PATH_D =  '/Volumes/DBNC_03/neuroCOVID/DATA/%S/EEG/';
+PATH_LOG = '/Volumes/LaCie/TESIS_FIGUEROA/DATA/%G/%S/LOG/';
+PATH_TOBI = '/Volumes/LaCie/TESIS_FIGUEROA/DATA/%G/%S/EYE/';
+PATH_D =  '/Volumes/LaCie/TESIS_FIGUEROA/DATA/%G/%S/EEG/';
 
 
 
@@ -98,23 +98,6 @@ PATH_D =  '/Volumes/DBNC_03/neuroCOVID/DATA/%S/EEG/';
 PATH_LOG =strrep( strrep(PATH_LOG,'%G',GR) , '%S' , SU);
 PATH_TOBI =strrep( strrep(PATH_TOBI,'%G',GR) , '%S' , SU);
 PATH_D = strrep( strrep(PATH_D,'%G',GR) , '%S' , SU);
-
-
-% % run this line to know how many recordign there are in the files
-% %   add set the index of the corresponding recording (RI)
-if 0
-filename = [PATH_TOBI  EYE_TOBI  ];
-EYE_ALL_TOBI =readtable(filename,...
-    'Delimiter','\t','ReadVariableNames',true);
-plot(EYE_ALL_TOBI.RecordingTimestamp), hold on 
-[index] = find(diff(EYE_ALL_TOBI.RecordingTimestamp)<0);
-index= [1 index' numel(EYE_ALL_TOBI.RecordingTimestamp)];
-plot(index, EYE_ALL_TOBI.RecordingTimestamp(index),'o')    
-figure
-plot(EYE_ALL_TOBI.GazePointX)
-end 
-
-
 
 
 %% STEPS: 1 to 3  
@@ -237,7 +220,9 @@ switch TAREA
         
         log_code = RT_all_log.est;
 
-        % Change for an equivalente CODE between RT form .log adn RT from .eeg 
+        % Change for an equivalente CODE between RT form .log and RT from
+        % .eeg (equivalencia entre estimulos de presentation y eeg)
+        
         RT_all_log.est(RT_all_log.est==1) = S001;
         RT_all_log.est(RT_all_log.est==2) = S002;
 
@@ -344,7 +329,7 @@ RT_all_log.up_delta=50;
 
 
 RT_all_fix = rt_fixlaten(RT_all,RT_all_log);
-% 
+% trata de corregir entre informacion enviada de EEG y presentation
 % RT_all_fix = rt_del(RT_all_fix,1:2);
 
 % lost trials in the eeg recording for error in the recording 
@@ -371,12 +356,12 @@ n_lost_eeg_trial=0;
 end
 
 
-% Save the time of the stimuli forn .log in order to sychronize EYE-TRACKER
-% data
+% Save the time of the stimuli from .log in order to sychronize EYE-TRACKER
+% data 
 if LOG
 RT_all_fix.OTHER.log_latency = RT_all_log.latency;
 RT_all_fix.OTHER.log_code = log_code;
-% rempace the RT form the fixed one
+% rempace the RT from the fixed one
 LAN.RT = RT_all_fix;
 end
 
@@ -445,7 +430,7 @@ switch TAREA
         cfg.RT          = LAN.RT;
         cfg.est         = [S012 S014 S016];
         cfg.resp        = [S020 S021 S040 S041 S060 S061] ;
-        cfg.rw          = [10000] ;      %   (ms)
+        cfg.rw          = [10000] ;      %   (ms) hasta cuando busca una respuesta del sujeto
         RT_probe = rt_read(cfg);
         % .log
         if LOG
@@ -461,7 +446,7 @@ switch TAREA
         end
         end
 
-        % theresponce for each stimulus
+        % the response for each stimulus
         cfg             = [];
         cfg.type        = 'RT';
         cfg.RT          = LAN.RT;
@@ -475,7 +460,7 @@ switch TAREA
         cfg. source     = 'RT'; 
         cfg. ref        = [S012 S014 S016] ;   % code of event mark of epoch (references)
         cfg.epoch       = true;
-        cfg.times       = SEG_TIME % % time for segmentation 
+        cfg.times       = SEG_TIME; % % time for segmentation 
         LAN = lan_latency(LAN, cfg );
             if LOG
             % check vector lenght 
@@ -645,7 +630,7 @@ end
 
 
 %% STEP: 5
-% Extarcted and synchronized de EYE tracker recordings 
+% Extracted and synchronized de EYE tracker recordings 
 
 if EYE
 
@@ -918,7 +903,8 @@ if EYE
 %     %---------------------------------------------------------------------
     
    end
-    % convert no measure in NaN in .log data 
+    % convert no measure in NaN in .log data ... convertir dato no recogido a
+    % NaN
     data_inter =  ~ismember(time_x,EYE_POS_LOG.pos_time);
     POS_X_1000(data_inter) = NaN;
     POS_Y_1000(data_inter) = NaN;
@@ -956,7 +942,7 @@ if EYE
         X_tobi = (zero_tobi+(LAN.time(t,1)*LAN.srate)):(zero_tobi+(LAN.time(t,2)*LAN.srate));
         X_tobi =  X_tobi(1:end-1);
         end
-        zero_log = find(time_x==fix(LAN.RT.OTHER.log_latency(t)));
+        zero_log = find(time_x==fix(LAN.RT.OTHER.log_latency(t)));% ajustando los tiempos del EEG con los del eye-tracker
         X_log = (zero_log+(LAN.time(t,1)*LAN.srate)):(zero_log+(LAN.time(t,2)*LAN.srate));
         X_log =  X_log(1:end-1);
 
@@ -1032,9 +1018,11 @@ if EYE
 
     %prepro_plot(LAN);
 
-    %save current version of this scrpt in the LAN strucutre
+  
 
 end
+
+  %save current version of this script in the LAN strucutre (guarda el script del procesamiento del dato específico)
 
 if isempty(mfilename('fullpath'))
 name = matlab.desktop.editor.getActiveFilename;
@@ -1068,8 +1056,9 @@ save([DATA '_pro/LAN_' TAREA '_array_EYE' ] , 'LAN', '-v7.3')
 
 
 %save in neuroCICS DB
-mkdir(['/Volumes/GoogleDrive-103235447575506129142/Mi unidad/DATA/PARTICIPANTES/' SU '/EEG' ] , [  DATA '_pro' ])
-save(['/Volumes/GoogleDrive-103235447575506129142/Mi unidad/DATA/PARTICIPANTES/' SU '/EEG/' DATA '_pro/LAN_' TAREA '_array_EYE' ] , 'LAN', '-v7.3')
+
+% mkdir(['/Volumes/GoogleDrive-103235447575506129142/Mi unidad/DATA/PARTICIPANTES/' SU '/EEG' ] , [  DATA '_pro' ])
+% save(['/Volumes/GoogleDrive-103235447575506129142/Mi unidad/DATA/PARTICIPANTES/' SU '/EEG/' DATA '_pro/LAN_' TAREA '_array_EYE' ] , 'LAN', '-v7.3')
 
 %clear
 
