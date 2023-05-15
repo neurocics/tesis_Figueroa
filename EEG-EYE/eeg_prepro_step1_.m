@@ -22,8 +22,8 @@ clear
 
 % names of subejto to build  file and directories
 GR = 'pacientes';
-SU = 'CAMS_24101973';
-DATA = '09032023';
+SU = 'CFOI_23101987';
+DATA = '15032023';
 TAREA = 'RL';
 % cases:  'WM' for working memory ,
 %         'RL' for reversal learning 
@@ -89,9 +89,9 @@ end
 %PATH_LOG = '/Volumes/LaCie/TESIS_FIGUEROA/DATA/%G/%S/LOG/';
 %PATH_TOBI = '/Volumes/LaCie/TESIS_FIGUEROA/DATA/%G/%S/EYE/';
 %PATH_D =  '/Volumes/LaCie/TESIS_FIGUEROA/DATA/%G/%S/EEG/';
-PATH_LOG = '/Volumes/DBNC_03/Figueroa/%G/%S/LOG/';
-PATH_TOBI = '/Volumes/DBNC_03/Figueroa/%G/%S/EYE/';
-PATH_D =  '/Volumes/DBNC_03/Figueroa/%G/%S/EEG/';
+PATH_LOG = '/Volumes/Alejandra/TESIS/%G/%S/LOG/';
+PATH_TOBI = '/Volumes/Alejandra/TESIS/%G/%S/EYE/';
+PATH_D =  '/Volumes/Alejandra/TESIS/%G/%S/EEG/';
 
 
 
