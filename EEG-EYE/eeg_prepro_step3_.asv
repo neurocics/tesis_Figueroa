@@ -16,7 +16,7 @@ clc
 
 
 
-SU=        'CEAS_23071992';%               'SAJC_22021972';%               % 
+SU=        'CEAS_';%               'SAJC_22021972';%               % 
 GR = 'controles';
 TAREA = 'GN';        %{'WM', 'RL','GN'}
 DATE = '';

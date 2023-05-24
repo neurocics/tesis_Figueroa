@@ -24,7 +24,7 @@ clear
 GR = 'controles';
 SU = 'SNCS_22121989';
 DATA = '23012023';
-TAREA = 'RL';
+TAREA = 'WM''RL'}
 
 % cases:  'WM' for working memory , 180 TRIALS
 %         'RL' for reversal learning 

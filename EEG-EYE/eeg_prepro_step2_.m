@@ -9,11 +9,11 @@
 %  Pablo Billeke 
 
 clear
-GR = 'pacientes';
+GR = 'controles';
 
 
 for ns =  {
-        'CFOI_23101987'
+        'SNCS_22121989'
 }'% 'RL GN WM'  % sp1; 
     %'EERV_01041955','GAQJ_21061987','JAZV_27081991','JDRP_06081956','JGRF_24091991',
     %'MLCB_11041981'   'MPMM_22111977','OAPC_01041962','REOO_10031989','UENM_22121979'
@@ -29,7 +29,7 @@ switch SU
 end
 
 
-for nm = { 'WM','GN'};%'RL',
+for nm = {'GN','RL','WM'};%'RL',
 TASK = nm{1};%'RL'
 
 
@@ -37,9 +37,9 @@ TASK = nm{1};%'RL'
 %PATH_LOG =  '/Volumes/DB_neuroCICS_02/datos_investigadores/neuroCOVID/%G/%S/LOG/';
 %PATH_TOBI =  '/Volumes/DB_neuroCICS_02/datos_investigadores/neuroCOVID/%G/%S/EYE/';
 %PATH_MAT =  '/Volumes/GoogleDrive-103235447575506129142/Mi unidad/DATA/PARTICIPANTES/%S/EEG/%D_pro/';
-PATH_MAT =  '/Volumes/Alejandra/TESIS/%G/%S/EEG/%D_pro/';
+PATH_MAT =  '/Volumes/Alehermosa/TESIS/%G/%S/EEG/%D_pro/';
 %PATH_EEG =  '/Volumes/GoogleDrive-103235447575506129142/Mi unidad/DATA/PARTICIPANTES/%S/EEG/';
-PATH_EEG =  '/Volumes/Alejandra/TESIS/%G/%S/EEG/';
+PATH_EEG =  '/Volumes/Alehermosa/TESIS/%G/%S/EEG/';
 %find DATA
 
 PATH_EEG =strrep( strrep(PATH_EEG,'%G',GR) , '%S' , SU);
