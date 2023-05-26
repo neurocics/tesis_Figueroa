@@ -16,9 +16,9 @@ clc
 
 
 
-SU=        'CEAS_23071992';%               'SAJC_22021972';%               % 
-GR = 'controles';
-TAREA = 'GN';        %{'WM', 'RL','GN'}
+SU=        'MJDD_01101984';%               'SAJC_22021972';%               % 
+GR = 'pacientes';
+TAREA = 'WM';        %{'WM', 'RL','GN'}
 DATE = '';
 
 
@@ -44,7 +44,7 @@ fprintf(['\nFind out ocular and heart-beat components \n\n'])
 prepro_plot(LAN) % select and delect ICAS
 end
 
-%%
+%% Part 2
 fprintf(['\ndeleted component index: ' num2str(LAN.ica_del) '\n\n'])
 
 LAN.accept(:)=true;
@@ -123,7 +123,7 @@ LAN.accept = sum(LAN.tag.mat(:,:)>0,1)<=15;
 fprintf(['\nCary out visual impection \n\n'])
 prepro_plot(LAN) % select trials / electrode with remaninde artefact for interpolation 
 
-   %%
+   %% Part 3
 % Mark turn off electrodes again post visula impections 
 for t = 1:LAN.trials
    off_e =  nanmean(abs(LAN.data{t}),2)<0.04; 
