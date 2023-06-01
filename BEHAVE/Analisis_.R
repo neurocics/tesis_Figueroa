@@ -11,6 +11,9 @@ library(ggplot2)
 library(nlme)
 require(lme4)
 library(MASS)
+
+library(rstatix)
+library(tidyr)
 #---------------------------------
 datafile = "/Users/alejandra/Desktop/DOCTORADO/2021/TESIS\ /git_neurocovid/tesis_Figueroa/BEHAVE/COR_rl.txt" # PB
 #---------------------------------
@@ -132,6 +135,17 @@ mean(forIDX2m$behavior_Shift)
 
 
 forIDX = rbind(forIDX0,forIDX1,forIDX2)
+friedman.test(behavior_Shift ~ adap | Sub_ID, data=forIDX)
+
+
+mixed_anova <- aov_ez(
+  id = "Sub_ID",
+  dv = "behavior_Shift",
+  data = forIDX,
+  between = "GR",
+  within = "adap"
+)
+
 
 
 DF = forIDX0$behavior_Shift-forIDX1$behavior_Shift
@@ -364,7 +378,7 @@ plot(results6)
 # each of the resulting matrix represent a single MCMC sample, the columnsrepresent the monitored variables
 chains = rbind(results6$mcmc[[1]], results6$mcmc[[2]], results6$mcmc[[3]])
 DIC6 = mean(chains[,"deviance"]) + (sd(chains[,"deviance"])^2)/2
-DIC6  # 2595.675  [1] 7684.767 -- 67s
+DIC6  # 2441.411 -- 67s
 
 
 
