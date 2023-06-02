@@ -124,9 +124,15 @@ LAN =lan_read_file(eeg_file(1:end-4),'BA');%[ SU '_'   DATA '_' TAREA '.eeg'  ]
 % LAN.RT.latency = paso;
 
 % hight past filter in the continuos data 
-   if 1
+   if 1    % cambia mejor a FIR 
 	    d1 = designfilt('highpassiir','FilterOrder',4, ...
-	        'HalfPowerFrequency',0.75,'DesignMethod','butter', 'SampleRate',LAN.srate); % 0.25
+	        'HalfPowerFrequency',0.75,'DesignMethod','butter', ...
+            'SampleRate',LAN.srate); % 0.25
+
+       % d1 = designfilt('highpassfir','FilterOrder',4,'StopbandFrequency',0.2, ...
+       %                'PassbandFrequency',0.75,'SampleRate',LAN.srate);
+
+
 	    for t=1:LAN.trials    
 	    LAN.data{t} = single(filtfilt(d1,double(LAN.data{t}')))';
         end
