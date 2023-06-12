@@ -16,9 +16,9 @@ clc
 
 
 
-SU=        'MJDD_01101984';%               'SAJC_22021972';%               % 
+SU=        'KSDG_20051983';%               'SAJC_22021972';%               % 
 GR = 'pacientes';
-TAREA = 'WM';        %{'WM', 'RL','GN'}
+TAREA = 'GN';        %{'WM', 'RL','GN'}
 DATE = '';
 
 

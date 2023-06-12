@@ -13,7 +13,7 @@ GR = 'pacientes';
 
 
 for ns =  {
-        'S_WL_25051979'
+        'KSDG_20051983'
 }'% 'RL GN WM'  % sp1; 
     %'EERV_01041955','GAQJ_21061987','JAZV_27081991','JDRP_06081956','JGRF_24091991',
     %'MLCB_11041981'   'MPMM_22111977','OAPC_01041962','REOO_10031989','UENM_22121979'
@@ -22,14 +22,16 @@ for ns =  {
     %'CDPR_25031986','COGC_18022000','ELFN_09021961','IABM_03061982','CAMO_08111988'
 SU=ns{1};
 DATA = [];
+
 switch SU
-                   
+    case 'KSDG_20051983'
+        no_ica = [9 12 38 58]; %23 55 61:64           
     otherwise 
-        no_ica = [];%23 55 61:64
+        no_ica = []; %23 55 61:64
 end
 
 
-for nm = {'WM'};%'RL','RL','WM'
+for nm = {'GN'};%'RL','RL','WM'
 TASK = nm{1};%'RL'
 
 
@@ -62,7 +64,7 @@ end
 
 if exist([ PATH_MAT 'LAN_'  TASK '_array_EYE_ica.mat' ],'file') || exist([ PATH_MAT 'LAN_'  TASK '_EEG_interp.mat' ],'file')
 disp(['data already OK  ' SU '>>' TASK ])    
-continue 
+%continue 
 end
 
 
@@ -74,30 +76,44 @@ load ([ PATH_MAT 'LAN_'  TASK '_array_EYE.mat' ])
 
 for t = find(isemptycell(LAN.data))
     LAN.data{t} = zeros(size(LAN.data{find(~isemptycell(LAN.data),1)}));  
-    disp(['>>>>>>  empty trail '  num2str(t) '!!!!'])
+    disp(['>>>>>>  empty trial '  num2str(t) '!!!!'])
 end
- LAN = lan_check(LAN);
+
+LAN = lan_check(LAN);
 %
 
-
+% electrode del EEG 
 elec = 1:64;
 
-LAN = vol_thr_lan(LAN,150,'bad:V',elec);
-    cfga.thr    =    [2 0.25] ;%       %   (sd %spectro)
-    cfga.tagname=    'bad:A';%
-    cfga.frange=     [1 40];%
+LAN = vol_thr_lan(LAN,150,0,'bad:V',elec);
+
+% LAN = vol_thr_lan(LAN,3,'z','bad:V',elec); % no ocupar aun esta opcion ,
+%                                            % hacer su propio scrits
+
+    %           z-score Porcetaje del scpectro 
+    cfga.thr       =   [2 0.25] ;%       %   (sd %spectro)
+    cfga.tagname   =   'bad:A';%
+    cfga.frange    =   [1 100];%
     %cfga.cat =1;%
-    cfga.method =  'f';%'f';% orLAN
-    cfga          .nch = elec;%
+    cfga.method    =   'f';%'f';% orLAN
+    cfga.nch       =   elec;%
     
 LAN = fftamp_thr_lan(LAN,cfga);
 
 
 
 ica_sel = 1:64;
-ica_sel(no_ica) = [];
 icasel = ica_sel;
-ica_sel([1 5 29 32 33 34 37 63 64]) = [];% frontales 
+icasel(no_ica) = [];
+
+
+% paso opcional 
+% 
+ Frontales = [1 5 29 32 33 34 37 63 64];
+ 
+ exclude_ele = unique([Frontales no_ica]);
+
+ ica_sel(exclude_ele) = [];% frontales 
 
     %%% aseguarra sufienctes trials para el ICA
     n=1; 
@@ -117,7 +133,10 @@ ica_sel([1 5 29 32 33 34 37 63 64]) = [];% frontales
     data1 = cat(2,LAN.data{logical(LAN.accept)});
     data2 = data1(icasel,:);
 
-     [weights,sphere] = runica(     data2    ,'extended', 1,'pca',min(fix(numel(icasel)*0.95),numel(icasel)-1));
+     % se puede filtrar el dato para el ica en sun pasa alto 1Hz para
+     % mejor la deteccion d elso pestañeos 
+
+     [weights,sphere] = runica(     data2    ,'extended', 1,'pca', min(fix(numel(icasel)*0.95),numel(icasel)-1))  ;
      LAN.ica_weights = weights;
      LAN.ica_sphere = sphere;
      LAN.ica_select = icasel;
