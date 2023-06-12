@@ -119,7 +119,7 @@ end
 
 
 % marcarmalos todos los que tengan nn  canales detectados 
-LAN.accept = sum(LAN.tag.mat(:,:)>0,1)<=15;
+LAN.accept = sum(LAN.tag.mat(:,:)>0,1)<=15; % se cambió a 10 canales malos por trial 
 fprintf(['\nCary out visual impection \n\n'])
 prepro_plot(LAN) % select trials / electrode with remaninde artefact for interpolation 
 
