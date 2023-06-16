@@ -95,8 +95,11 @@ elec = 1:64;
 LAN.accept(:)=1;
 LAN = rmfield(LAN, 'tag');
 LAN = lan_check(LAN);
-LAN = vol_thr_lan(LAN,150,0,'bad:V',elec);
-%LAN = vol_thr_lan(LAN,8,1,'bad:Vz',elec);
+                                                        
+LAN = vol_thr_lan(LAN,150,'v','bad:V',elec);
+LAN = vol_thr_lan(LAN,4,'z','bad:Vz',elec);
+LAN = vol_thr_lan(LAN,3.5,'c','bad:Vc',elec);
+
     cfga.thr    =    [2 0.2] ;%       %   (sd %spectro)
     cfga.tagname=    'bad:A';%
     cfga.frange=     [1 45];%
