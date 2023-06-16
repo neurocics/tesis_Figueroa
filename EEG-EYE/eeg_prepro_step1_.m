@@ -21,10 +21,10 @@ clear
 % SET variables per subjet 
 
 % names of subejto to build  file and directories
-GR = 'pacientes';
-SU = 'TPAO_16051980';
-DATA = '09052023';
-TAREA = 'GN';
+GR = 'controles';
+SU = 'CFPL_08021984';
+DATA = '02052023';
+TAREA = 'RL';
 
 % cases:  'WM' for working memory , 180 TRIALS
 %         'RL' for reversal learning 

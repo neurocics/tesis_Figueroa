@@ -9,11 +9,11 @@
 %  Pablo Billeke 
 
 clear
-GR = 'pacientes';
+GR = 'CONTROLES';
 
 
 for ns =  {
-        'KSDG_20051983'
+        'KXMS_13061971'
 }'% 'RL GN WM'  % sp1; 
     %'EERV_01041955','GAQJ_21061987','JAZV_27081991','JDRP_06081956','JGRF_24091991',
     %'MLCB_11041981'   'MPMM_22111977','OAPC_01041962','REOO_10031989','UENM_22121979'
@@ -31,7 +31,7 @@ switch SU
 end
 
 
-for nm = {'GN'};%'RL','RL','WM'
+for nm = {'RL'};%'RL','RL','WM'
 TASK = nm{1};%'RL'
 
 
