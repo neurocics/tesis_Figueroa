@@ -7,11 +7,15 @@ library(lme4)
 require(lme4)
 
 rm(list=ls())
-setwd("/Users/alejandra/Desktop/DOCTORADO/2021/TESIS /git_neurocovid/tesis_Figueroa/BEHAVE")
+setwd("/Volumes/Alehermosa/TESIS")
 
 datafile = "COR_rl.txt" # PB
 
 DATA_TOTAL = read.table(datafile,sep = '\t', header = T)
+
+unique(DATA_TOTAL$SU)
+
+
 
 DATA_TOTAL$nt=DATA_TOTAL$out_nt
 DATA_TOTAL$buena =DATA_TOTAL$out_buena
@@ -77,4 +81,5 @@ FX = aggregate(money ~ SU:fase,data=DATA_TOTAL,FUN = mean) # puntaje acumulado p
 FX <- FX %>% filter(fase %in% c(-1,1,2))
 
 FXm = aggregate(money ~ fase,data=FX,FUN = mean)
+
 

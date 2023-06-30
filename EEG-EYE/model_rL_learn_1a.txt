@@ -1,0 +1,59 @@
+model {
+
+
+  # prior 
+  beta0 ~ dnorm(0,0.0001)      # Intercepto  
+  beta1 ~ dnorm(0,0.0001)       # EU
+   
+  # learning rate feedback + 
+  alpha_a~ dbeta(1,1)
+  # learning rate feedback - 
+  alpha_r ~ dbeta(1,1)
+
+  
+  # alpha of prospect theory v(x) = x^alpha
+  rew ~ dunif(0.01,10) 
+  
+  # gamma of prospect theory pi(p)
+  #gamma ~ dunif(0.01,10) 
+  
+  
+  p_sub[1]=0.5
+  
+  for (i in 2:nT) {
+    
+    feedback_left[i-1] = (feedback[i-1]*y[i-1]) + ((1-feedback[i-1])*(1-y[i-1]))
+    
+    delta_a[i] <- alpha_a * ((feedback_left[i-1]) - p_sub[i-1])
+    delta_r[i] <- alpha_r * ((feedback_left[i-1]) - p_sub[i-1])
+    
+    p_sub[i] <- (0.5 * firstT[i]) +  ( p_sub[i-1] + delta_a[i]   )*(1-firstT[i])*(feedback[i-1]) + ( p_sub[i-1] + delta_r[i]   )*(1-firstT[i])*(1-feedback[i-1])
+    
+    # pi(p_sub)
+    Pi.1[i] <- p_sub[i]# ^ gamma   /   (( p_sub[i]^gamma  + (1-p_sub[i])^gamma   )^(1/gamma))
+    Pi.2[i] <- (1-p_sub[i])# ^ gamma   /   (( (1-p_sub[i])^gamma  + (p_sub[i])^gamma   )^(1/gamma))
+    
+    #
+    V.1[i] <- Bd1[i] ^ rew
+    V.2[i] <- Bd2[i] ^ rew
+    
+ 
+    U[i] <- V.1[i]  * Pi.1[i]  - V.2[i] * Pi.2[i] 
+     
+     p_logic[i] <- 1 /(1 + exp(-( beta0  + beta1  * U[i] )))
+    
+     y[i] ~ dbern(p_logic[i]) 
+    
+  }
+    # Only for read out completely the latent variable
+    feedback_left[nT] = (feedback[nT]*y[nT]) + ((1-feedback[nT])*(1-y[nT]))
+    delta_a[nT+1] <- alpha_a * ((feedback_left[nT]) - p_sub[nT])
+    delta_r[nT+1] <- alpha_r * ((feedback_left[nT]) - p_sub[nT])
+    Pi.1[1] <- p_sub[1]    #^ gamma   /   (( p_sub[1]^gamma  + (1-p_sub[1])^gamma   )^(1/gamma))
+    Pi.2[1] <- (1-p_sub[1])# ^ gamma   /   (( (1-p_sub[1])^gamma  + (p_sub[1])^gamma   )^(1/gamma))
+    V.1[1] <- Bd1[1] ^ rew
+    V.2[1] <- Bd2[1] ^ rew
+    U[1] <- V.1[1]  * Pi.1[1]  - V.2[1] * Pi.2[1] 
+    p_logic[1] <- 1 /(1 + exp(-( beta0  + beta1  * U[1] )))
+    y[1] ~ dbern(p_logic[1]) 
+}

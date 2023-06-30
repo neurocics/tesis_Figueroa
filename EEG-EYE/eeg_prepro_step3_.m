@@ -16,9 +16,9 @@ clc
 
 
 
-SU=        'CFOI_23101987';%               'SAJC_22021972';%               % 
-GR = 'pacientes';
-TAREA = 'RL';        %{'WM', 'RL','GN'}
+SU=        'GRCN_21111979';%               'SAJC_22021972';%               % 
+GR = 'controles';
+TAREA = 'WM';        %{'WM', 'RL','GN'}
 DATE = '';
 
 

@@ -6,74 +6,50 @@
 
 clear
 % eeg analisis 
-Sujetos = {
-'AGBB_26121972' % 'RL WM GN'     % OK
-'ASCS_31121976' % 'RL WM GN'  % sp1
-'BBMA_19041977' % 'RL GN WM'  % sp1
-'BCUV_02091982' % RL GN WM'  % sp1
-'C_DG_15111995' % RL GN WM % sp1 GN
-'CACB_27091965' % RL GN WM % sp1 
-'CAMO_08111988' % 'RL GN WM' 
-'CARM_14011974' % 'RL GN WM'
-'CDPR_25031986' % 'RL GN WM'
-'CEBT_30091989' % 'RL GN WM' % sp1 
-'CJGV_24021957' % 'RL GN WM' % sp1 
-'CMCO_17051975' % 'RL GN WM' 
-'COGC_18022000' % 'RL GN WM' 
-'EERV_01041955' % 'RL GN WM' 
-'ELFN_09021961' % 'RL GN WM' 
-'FABN_19111984' % 'RL GN WM' 
-'FJAM_10012001' % 'RL GN WM' % sp1 
-'FRCA_12081956' % 'RL GN WM' % sp1 
-'GADM_08111983' % 'RL GN WM' % sp1 
-'GAQJ_21061987' % 'RL GN WM' 
-'IABF_16091997' % 'RL GN WM' 
-'IABM_03061982' % 'RL GN WM' %RRR
-'JAPV_03111995' % 'RL GN WM'
-'JAZV_27081991' % 'RL GN WM'
-'JCZD_03071963' % 'RL GN WM'% RRR % sp1 
-'JDRP_06081956' % 'RL GN WM'  % sp1 
-'JFFA_04101976' % 'RL GN WM'  % sp1 
-'JFSO_05061967' % 'RL GN WM'  % sp1 
-'JGRF_24091991' % 'RL GN WM'  % sp1 
-'LAAB_29101982' % 'RL GN WM'  % sp1
-'LDEV_31011988' % 'RL GN WM'  % sp1
-'LMRG_21041962' % 'RL GN WM'  % sp1
-'MAEM_17051957' % 'RL GN WM'  % sp1
-'MFCM_21011984' % 'RL GN WM'  % sp1
-'MGRN_22101979' % 'RL GN WM'  % sp1
-'MLAD_09021957' % 'RL GN WM'  % sp1
-'MLCB_11041981' % 'RL GN WM'  % sp1
-'MPMM_22111977' % 'RL GN WM'  % sp1
-'MTVV_27111974' % 'RL GN WM'  % sp1
-'OAPC_01041962' % 'RL GN WM'  % sp1
-'RABG_09091981' % 'RL GN WM' 
-'RAPA_19121977' % 'RL GN WM'  % sp1
-'REOO_10031989' % 'RL GN WM'  % sp1
-'RFCR_12111978' % 'RL GN WM'  % sp1
-'RSVT_17091955' % 'RL GN WM'  % sp1
-'SAAA_10051991' % 'RL GN WM'  % sp1
-'SAJC_22021972' % 'RL GN WM'  % sp1
-'SAVS_23061979' % 'RL GN WM'  % sp1
-'UENM_22121979' % 'RL GN WM'  % sp1
-'VAPH_11101985' % 'RL GN WM'  % sp1
-}' ;
+Sujetos = {{
+'CFOI_23101987' % 'RL WM GN'     %
+'CAMS_24101973' % 'RL WM GN'  %
+'FLFS_08081990' % 'RL GN WM'  % 
+'GAMY_03071978' % RL GN WM'  % 
+'K_BA_22111991' % RL GN WM % 
+'KSDG_20051983' % RL GN WM %  
+'MMPM_06011977' % 'RL GN WM' 
+'S_WL_25051979' % 'RL GN WM'
+'CAPG_27061969' % 'RL GN WM'
+'MJDD_01101984'
+}',{% 'RL GN WM' 
+'CEAS_23071992' % 'RL GN WM' 
+'CAHG_27061988' % 'RL GN WM' 
+'YDCL_11021994' % 'RL GN WM' 
+'B_FE_24011989' % 'RL GN WM' 
+'MEFR_14061991' % 'RL GN WM' 
+'SNCS_22121989' % 'RL GN WM' 
+'MAAO_15081988' % 'RL GN WM'  
+'GRCN_21111979' % 'RL GN WM'  
+'KXMS_13061971' % 'RL GN WM' 
+'CFPL_08021984' % 'RL GN WM' 
+}'} ;
+
+GRS={'pacientes','controles'};
+
+OVERWRITE=false;
 
 
-OVERWRITE=true;
-
-
-for  nS =Sujetos(1:end) %%
+for nG = 1:2
+    GR= GRS{nG};
+    Sujetos_g = Sujetos{nG};
+for  nS =Sujetos_g %%
+    
 for nT = {'RL'}
-   disp('Sujetos(1:end)')
+   disp(['Sujeto: ' nS{1} '(' GR ')'  ' Tarea: '  nT{1} ])
    
    
-    PATH_MAT =  '/Volumes/DBNC_03/neuroCOVID/DATA/%S/EEG/%D_pro/';
-    PATH_EEG =  '/Volumes/DBNC_03/neuroCOVID/DATA/%S/EEG/';
-    PATH_LOG =  '/Volumes/DBNC_03/neuroCOVID/DATA/%S/LOG/';
+    PATH_MAT =  '/Volumes/Alehermosa/TESIS/%G/%S/EEG/%D_pro/';
+    PATH_EEG =  '/Volumes/Alehermosa/TESIS/%G/%S/EEG/';
+    PATH_LOG =  '/Volumes/Alehermosa/TESIS/%G/%S/LOG/';
+    
     
     SU=     nS{1};  
-    GR = '';
     TAREA = nT{1};       %
     DATE = '';
 
@@ -87,7 +63,7 @@ for nT = {'RL'}
     PATH_LOG = strrep( strrep( strrep(PATH_LOG,'%G',GR) , '%S' , SU), '%D', DATE);
     
     
-    if ~exist ([ PATH_MAT 'LAN_' TAREA '_EEG_interp_freq.mat' ], 'file')
+    if ~exist ([ PATH_MAT 'LAN_' TAREA '_EEG_interp_freq_lapla.mat' ], 'file')
       fprintf(['No data  ' SU ' \n'])  
       continue
     elseif ~OVERWRITE &&  exist ([ PATH_MAT 'LAN_' TAREA '_MODEL_DM_r_Uc_LD_Ri.mat' ], 'file')
@@ -96,7 +72,7 @@ for nT = {'RL'}
     end
 
     cd([PATH_MAT ])
-    load ([ PATH_MAT 'LAN_' TAREA '_EEG_interp_freq' ])
+    load ([ PATH_MAT 'LAN_' TAREA '_EEG_interp_freq_lapla' ])
     FT = lan_getdatafile(LAN.freq.powspctrm.filename,LAN.freq.powspctrm.path,LAN.freq.powspctrm.trials);
 
 
@@ -204,14 +180,14 @@ for nT = {'RL'}
                 fprintf( 'Running JAGS\n' );
                 [samples, stats ] = matjags( ...
                         DJ, ...
-                        fullfile('/Volumes/DBNC_03/neuroCOVID/GIT/MRI', 'model_rL_learn_1a.txt'), ...
+                        fullfile('/Users/alejandra/Desktop/DOCTORADO/2021/TESIS /git_neurocovid/tesis_Figueroa/EEG-EYE', 'model_rL_learn_1a.txt'), ...
                         init0, ...
                         'doparallel' , doparallel, ...
                         'nchains', nchains,...
                         'nburnin', nburnin,...
                         'nsamples', nsamples, ...
                         'thin', 10, ...
-                        'monitorparams', {'beta0','beta1','alpha_r','alpha_a','rew','gamma','delta_a','delta_r','U','V.1','Pi.1','V.2','Pi.2'  }, ...
+                        'monitorparams', {'beta0','beta1','alpha_r','alpha_a','rew','delta_a','delta_r','U','V.1','Pi.1','V.2','Pi.2'  }, ...
                         'savejagsoutput' , 0 , ...
                         'verbosity' , 1 , ...
                         'cleanup' , 0  );
@@ -233,6 +209,17 @@ for nT = {'RL'}
 
                 RT.OTHER.Utility_c = stats.mean.U .* (-1*(Tabla.Resp==2)' + 1*(Tabla.Resp==1)');
                 RT.OTHER.Utility_c = repelem(RT.OTHER.Utility_c,2);
+                
+                RT.OTHER.Utility_z = normal_z(RT.OTHER.Utility_c);
+                RT.OTHER.LearningSignal_dm_z = normal_z(RT.OTHER.LearningSignal_dm);
+               
+                % truncate extreme values
+                RT.OTHER.Utility_z(RT.OTHER.Utility_z>3.5)  = 3.6;
+                RT.OTHER.Utility_z(RT.OTHER.Utility_z<-3.5)  = -3.6;
+                RT.OTHER.LearningSignal_dm_z(RT.OTHER.LearningSignal_dm_z>3.5)  = 3.6;
+                RT.OTHER.LearningSignal_dm_z(RT.OTHER.LearningSignal_dm_z<-3.5)  = -3.6;
+                
+                
                 RT.OTHER.V1 = repelem( stats.mean.V_1 , 2);
                 RT.OTHER.V2 = repelem( stats.mean.V_2 , 2);
                 RT.OTHER.Vc = (RT.OTHER.V1-RT.OTHER.V2) .* (-1*(RT.OTHER.Resp==2) + 1*(RT.OTHER.Resp==1));
@@ -295,11 +282,11 @@ for nT = {'RL'}
          save ([ PATH_MAT 'LAN_' TAREA '_MODEL_DM_r_Uc_LD_Ri' ],'LAN', '-v7.3')
          % some problems with drive 
          try
-                  save(['/Volumes/GoogleDrive-103235447575506129142/Mi unidad/DATA/PARTICIPANTES/' SU '/EEG/' DATE '_pro/LAN_' TAREA '_MODEL_DM_r_Uc_LD_Ri' ] , 'LAN', '-v7.3')
+                  %save(['/Volumes/GoogleDrive-103235447575506129142/Mi unidad/DATA/PARTICIPANTES/' SU '/EEG/' DATE '_pro/LAN_' TAREA '_MODEL_DM_r_Uc_LD_Ri' ] , 'LAN', '-v7.3')
          catch
                  pause(30)
                  try
-                 save(['/Volumes/GoogleDrive-103235447575506129142/Mi unidad/DATA/PARTICIPANTES/' SU '/EEG/' DATE '_pro/LAN_' TAREA '_MODEL_DM_r_Uc_LD_Ri' ] , 'LAN', '-v7.3')
+                 %save(['/Volumes/GoogleDrive-103235447575506129142/Mi unidad/DATA/PARTICIPANTES/' SU '/EEG/' DATE '_pro/LAN_' TAREA '_MODEL_DM_r_Uc_LD_Ri' ] , 'LAN', '-v7.3')
                  end
          end
          
@@ -321,11 +308,11 @@ for nT = {'RL'}
          
          % some problems with drive 
          try
-         save(['/Volumes/GoogleDrive-103235447575506129142/Mi unidad/DATA/PARTICIPANTES/' SU '/EEG/' DATE '_pro/LAN_' TAREA '_MODEL_DM_r_Uc_LD_Ri_noise2' ] , 'LAN', '-v7.3')
+         %save(['/Volumes/GoogleDrive-103235447575506129142/Mi unidad/DATA/PARTICIPANTES/' SU '/EEG/' DATE '_pro/LAN_' TAREA '_MODEL_DM_r_Uc_LD_Ri_noise2' ] , 'LAN', '-v7.3')
          catch
              pause(30)
              try
-                 save(['/Volumes/GoogleDrive-103235447575506129142/Mi unidad/DATA/PARTICIPANTES/' SU '/EEG/' DATE '_pro/LAN_' TAREA '_MODEL_DM_r_Uc_LD_Ri_noise2' ] , 'LAN', '-v7.3')
+                 %save(['/Volumes/GoogleDrive-103235447575506129142/Mi unidad/DATA/PARTICIPANTES/' SU '/EEG/' DATE '_pro/LAN_' TAREA '_MODEL_DM_r_Uc_LD_Ri_noise2' ] , 'LAN', '-v7.3')
              end
          end
          
@@ -339,12 +326,11 @@ for nT = {'RL'}
 
 end
 end
-
+end
 
 % %% for checking data de data is OK
 if 0 
 figure
 pcolor2(LAN.freq.model.time, LAN.freq.model.freq, squeeze(LAN.freq.model.t{6}(:,59,:))), shading flat
 end
-
 

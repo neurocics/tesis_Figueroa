@@ -8,12 +8,12 @@ Sujetos = {{
 'GAMY_03071978' % RL GN WM'  % 
 'K_BA_22111991' % RL GN WM % 
 'KSDG_20051983' % RL GN WM %  
-'MMPM_06011997' % 'RL GN WM' 
+'MMPM_06011977' % 'RL GN WM' 
 'S_WL_25051979' % 'RL GN WM'
 'CAPG_27061969' % 'RL GN WM'
 'MJDD_01101984'
 }',{% 'RL GN WM' 
-'CEAS_23971992' % 'RL GN WM' 
+'CEAS_23071992' % 'RL GN WM' 
 'CAHG_27061988' % 'RL GN WM' 
 'YDCL_11021994' % 'RL GN WM' 
 'B_FE_24011989' % 'RL GN WM' 
@@ -30,8 +30,6 @@ GRS={'pacientes','controles'};
 
 OVERWRITE=false;
 
-PATH_MAT =  '/Volumes/Alehermosa/TESIS/%S/EEG/%D_pro/';
-PATH_EEG =  '/Volumes/Alehermosa/TESIS/%S/EEG/';
 
 
 CF=[];
@@ -66,7 +64,7 @@ PATH_MAT = strrep( strrep( strrep(PATH_MAT,'%G',GR) , '%S' , SU), '%D', DATE);
     
 
 
-for nT = {'WM', 'RL','GN'}
+for nT = {'GN', 'WM', 'RL'}
  TAREA = nT{1};   
     
 
@@ -91,7 +89,7 @@ end
 if ~exist ([ PATH_MAT 'LAN_' TAREA '_EEG_interp.mat' ], 'file')
   fprintf(['No data  ' SU ' \n'])  
   continue
-elseif ~OVERWRITE &&  exist ([ PATH_MAT 'LAN_' TAREA '_EEG_interp_freq.mat' ], 'file')
+elseif ~OVERWRITE &&  exist ([ PATH_MAT 'LAN_' TAREA '_EEG_interp_freq_lapla.mat' ], 'file')
   fprintf(['freq OK ' SU ' \n'])  
   continue
 end

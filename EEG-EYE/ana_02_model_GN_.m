@@ -3,77 +3,58 @@
 % Time-frequiency amplitude 
 %
 
-
+% Time-frequiency calculations 
 clear
 % eeg analisis 
-Sujetos = {
-'AGBB_26121972' % 'RL WM GN'     % OK
-'ASCS_31121976' % 'RL WM GN'  % sp1
-'BBMA_19041977' % 'RL GN WM'  % sp1
-'BCUV_02091982' % RL GN WM'  % sp1
-'C_DG_15111995' % RL GN WM % sp1 GN
-'CACB_27091965' % RL GN WM % sp1 
-'CAMO_08111988' % 'RL GN WM' 
-'CARM_14011974' % 'RL GN WM'
-'CDPR_25031986' % 'RL GN WM'
-'CEBT_30091989' % 'RL GN WM' % sp1 
-'CJGV_24021957' % 'RL GN WM' % sp1 
-'CMCO_17051975' % 'RL GN WM' 
-'COGC_18022000' % 'RL GN WM' 
-'EERV_01041955' % 'RL GN WM' 
-'ELFN_09021961' % 'RL GN WM' 
-'FABN_19111984' % 'RL GN WM' 
-'FJAM_10012001' % 'RL GN WM' % sp1 
-'FRCA_12081956' % 'RL GN WM' % sp1 
-'GADM_08111983' % 'RL GN WM' % sp1 
-'GAQJ_21061987' % 'RL GN WM' 
-'IABF_16091997' % 'RL GN WM' 
-'IABM_03061982' % 'RL GN WM' %RRR
-'JAPV_03111995' % 'RL GN WM'
-'JAZV_27081991' % 'RL GN WM'
-'JCZD_03071963' % 'RL GN WM'% RRR % sp1 
-'JDRP_06081956' % 'RL GN WM'  % sp1 
-'JFFA_04101976' % 'RL GN WM'  % sp1 
-'JFSO_05061967' % 'RL GN WM'  % sp1 
-'JGRF_24091991' % 'RL GN WM'  % sp1 
-'LAAB_29101982' % 'RL GN WM'  % sp1
-'LDEV_31011988' % 'RL GN WM'  % sp1
-'LMRG_21041962' % 'RL GN WM'  % sp1
-'MAEM_17051957' % 'RL GN WM'  % sp1
-'MFCM_21011984' % 'RL GN WM'  % sp1
-'MGRN_22101979' % 'RL GN WM'  % sp1
-'MLAD_09021957' % 'RL GN WM'  % sp1
-'MLCB_11041981' % 'RL GN WM'  % sp1
-'MPMM_22111977' % 'RL GN WM'  % sp1
-'MTVV_27111974' % 'RL GN WM'  % sp1
-'OAPC_01041962' % 'RL GN WM'  % sp1
-'RABG_09091981' % 'RL GN WM' 
-'RAPA_19121977' % 'RL GN WM'  % sp1
-'REOO_10031989' % 'RL GN WM'  % sp1
-'RFCR_12111978' % 'RL GN WM'  % sp1
-'RSVT_17091955' % 'RL GN WM'  % sp1
-'SAAA_10051991' % 'RL GN WM'  % sp1
-'SAJC_22021972' % 'RL GN WM'  % sp1
-'SAVS_23061979' % 'RL GN WM'  % sp1
-'UENM_22121979' % 'RL GN WM'  % sp1 falta LOG
-'VAPH_11101985' % 'RL GN WM'  % sp1
-}' ;
+Sujetos = {{
+%'CFOI_23101987' % 'RL WM GN'     %
+%'CAMS_24101973' % 'RL WM GN'  %
+%'FLFS_08081990' % 'RL GN WM'  % 
+%'GAMY_03071978' % RL GN WM'  % 
+%'K_BA_22111991' % RL GN WM % 
+%'KSDG_20051983' % RL GN WM %  
+%'MMPM_06011977' % 'RL GN WM' 
+'S_WL_25051979' % 'RL GN WM'
+'CAPG_27061969' % 'RL GN WM'
+%'MJDD_01101984'
+}',{% 'RL GN WM' 
+'CEAS_23071992' % 'RL GN WM' 
+'CAHG_27061988' % 'RL GN WM' 
+'YDCL_11021994' % 'RL GN WM' 
+'B_FE_24011989' % 'RL GN WM' 
+'MEFR_14061991' % 'RL GN WM' 
+'SNCS_22121989' % 'RL GN WM' 
+'MAAO_15081988' % 'RL GN WM'  
+'GRCN_21111979' % 'RL GN WM'  
+'KXMS_13061971' % 'RL GN WM' 
+'CFPL_08021984' % 'RL GN WM' 
+}'} ;
 
 
-OVERWRITE=false;
+GRS={'pacientes','controles'};
+
+OVERWRITE=true;%false;
+
+PATH_MAT =  '/Volumes/Alehermosa/TESIS/%S/EEG/%D_pro/';
+PATH_EEG =  '/Volumes/Alehermosa/TESIS/%S/EEG/';
 
 
-for  nS =Sujetos %%
+
+
+for nG = 1:2
+    GR= GRS{nG};
+    Sujetos_g = Sujetos{nG};
+for  nS =Sujetos_g %%
+    
 for nT = {'GN'}
-   disp('Sujetos(1)')
+    disp(['Sujeto ' nS{1} ' task: ' nT{1}  ])
    
    
-    PATH_MAT =  '/Volumes/DBNC_03/neuroCOVID/DATA/%S/EEG/%D_pro/';
-    PATH_EEG =  '/Volumes/DBNC_03/neuroCOVID/DATA/%S/EEG/';
-    PATH_LOG =  '/Volumes/DBNC_03/neuroCOVID/DATA/%S/LOG/';
+    PATH_MAT =  '/Volumes/Alehermosa/TESIS/%G/%S/EEG/%D_pro/';
+    PATH_EEG =  '/Volumes/Alehermosa/TESIS/%G/%S/EEG/';
+    PATH_LOG =  '/Volumes/Alehermosa/TESIS/%G/%S/LOG/';
     
     SU=     nS{1};  
-    GR = '';
     TAREA = nT{1};       %
     DATE = '';
 
@@ -87,16 +68,16 @@ for nT = {'GN'}
     PATH_LOG = strrep( strrep( strrep(PATH_LOG,'%G',GR) , '%S' , SU), '%D', DATE);
     
     
-    if ~exist ([ PATH_MAT 'LAN_' TAREA '_EEG_interp_freq.mat' ], 'file')
+    if ~exist ([ PATH_MAT 'LAN_' TAREA '_EEG_interp_freq_lapla.mat' ], 'file')
       fprintf(['No data  ' SU ' \n'])  
       continue
     elseif ~OVERWRITE &&  exist ([ PATH_MAT 'LAN_' TAREA '_MODEL_NGO_nGO_nNGP_G_pG_Lf_noise2.mat' ], 'file')
-      fprintf(['freq OK ' SU ' \n'])  
+      fprintf(['modelo listos  OK ' SU ' \n'])  
       continue
     end
 
     cd([PATH_MAT ])
-    load ([ PATH_MAT 'LAN_' TAREA '_EEG_interp_freq' ])
+    load ([ PATH_MAT 'LAN_' TAREA '_EEG_interp_freq_lapla' ])
     FT = lan_getdatafile(LAN.freq.powspctrm.filename,LAN.freq.powspctrm.path,LAN.freq.powspctrm.trials);
 
 
@@ -135,10 +116,28 @@ for nT = {'GN'}
     nNGO = zeros(1,LAN.trials);
     nNGO(nGO==0) = nGO(find(nGO==0)-1);
     % check this! % trucate effect 
-    nNGO(nNGO>5)=6;
-    nGO(nGO>5)=6;
+    %nNGO(nNGO>5)=6;
+    %nGO(nGO>5)=6;
    % check responces per  bloq 
-   
+Q=0.25;
+seq=[];
+seq(1)=1;
+for t = 2:length(LAN.RT.est)
+   if LAN.RT.est(t)~=LAN.RT.est(t-1)
+       seq(t)=1;
+   else
+       seq(t)=seq(t-1)+1;
+   end
+
+end
+
+Seq=seq;
+%UNO=Seq==1 & LAN.RT.est==2;
+ind= find(LAN.RT.est==5);
+ind=ind(ind>1);
+%Seq(ind) = Seq(ind-1)+1;
+Seq = 1- ((1-Q).^(Seq-1));
+Seq(ind) = 1-Seq(ind-1) ;
    
    %correct
    if sum(LAN.RT.resp>0)==0
@@ -224,7 +223,11 @@ for nT = {'GN'}
          cfgM=[];
          cfgM.type = 'glm';
          cfgM.ops = ['pre(glm:_M1_' SU '_' TAREA  '  )'];
-         [w, ww] =  lan_model_stat(FT(:,:,T1:T2,:),ones(size(NGO(~noLAN))),NGO(~noLAN), nGO(~noLAN),nNGO(~noLAN),GOOD(~noLAN),pGOOD(~noLAN),LEFT(~noLAN), cfgM);
+         [w, ww] =  lan_model_stat(FT(:,:,T1:T2,:),ones(size(NGO(~noLAN))),....
+             NGO(~noLAN), ...
+             GO(~noLAN).*Seq(~noLAN)  ,NGO(~noLAN).*Seq(~noLAN), ...
+             GOOD(~noLAN),pGOOD(~noLAN),....
+             LEFT(~noLAN), cfgM);
          
          LAN.freq.model.t =ww.t;
          LAN.freq.model.p= w;
@@ -236,12 +239,16 @@ for nT = {'GN'}
          LAN.data=[];
          
          save ([ PATH_MAT 'LAN_' TAREA '_MODEL_NGO_nGO_nNGP_G_pG_Lf' ],'LAN', '-v7.3')
-         save(['/Volumes/GoogleDrive-103235447575506129142/Mi unidad/DATA/PARTICIPANTES/' SU '/EEG/' DATE '_pro/LAN_' TAREA '_MODEL_NGO_nGO_nNGP_G_pG_Lf'] , 'LAN', '-v7.3')
+        % save(['/Volumes/GoogleDrive-103235447575506129142/Mi unidad/DATA/PARTICIPANTES/' SU '/EEG/' DATE '_pro/LAN_' TAREA '_MODEL_NGO_nGO_nNGP_G_pG_Lf'] , 'LAN', '-v7.3')
 
          cfgM=[];
          cfgM.type = 'glm';
          cfgM.ops = ['pre(glm:_M1_' SU '_' TAREA ' + Noise )'];
-         [w, ww] =  lan_model_stat(FT(:,:,T1:T2,:),ones(size(NGO(~noLAN))),NGO(~noLAN), nGO(~noLAN),nNGO(~noLAN),GOOD(~noLAN),pGOOD(~noLAN),LEFT(~noLAN),NoiseLevel(~noLAN),LowSignal(~noLAN),cfgM);         
+         [w, ww] =  lan_model_stat(FT(:,:,T1:T2,:),ones(size(NGO(~noLAN))),...
+             NGO(~noLAN), ...nGO(~noLAN),...
+             GO(~noLAN).*Seq(~noLAN), ....
+             NGO(~noLAN).*Seq(~noLAN), ...
+             GOOD(~noLAN),pGOOD(~noLAN),LEFT(~noLAN),NoiseLevel(~noLAN),LowSignal(~noLAN),cfgM);         
          LAN.freq.model.t =ww.t;
          LAN.freq.model.p= w;
          LAN.freq.model.b= ww.b;
@@ -252,18 +259,18 @@ for nT = {'GN'}
          LAN.data=[];
     
          save ([ PATH_MAT 'LAN_' TAREA '_MODEL_NGO_nGO_nNGP_G_pG_Lf_noise2' ],'LAN', '-v7.3')
-         save(['/Volumes/GoogleDrive-103235447575506129142/Mi unidad/DATA/PARTICIPANTES/' SU '/EEG/' DATE '_pro/LAN_' TAREA '_MODEL_NGO_nGO_nNGP_G_pG_Lf_noise2' ] , 'LAN', '-v7.3')
+         %save(['/Volumes/GoogleDrive-103235447575506129142/Mi unidad/DATA/PARTICIPANTES/' SU '/EEG/' DATE '_pro/LAN_' TAREA '_MODEL_NGO_nGO_nNGP_G_pG_Lf_noise2' ] , 'LAN', '-v7.3')
         
          
 
 end
 end
-
+end
 
 % %% for checking data de data is OK
 if 0 
 figure
-pcolor2(LAN.freq.model.time, LAN.freq.model.freq, squeeze(LAN.freq.model.t{6}(:,59,:))), shading flat
+pcolor2(LAN.freq.model.time, LAN.freq.model.freq, squeeze(LAN.freq.model.t{3}(:,65,:))), shading flat
 end
 
 
