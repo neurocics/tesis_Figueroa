@@ -15,17 +15,21 @@ library(MASS)
 library(rstatix)
 library(tidyr)
 #---------------------------------
-datafile = "/Users/alejandra/Desktop/DOCTORADO/2021/TESIS\ /git_neurocovid/tesis_Figueroa/BEHAVE/COR_rl.txt" # PB
+datafile = "/Users/alejandra/Desktop/DOCTORADO/2021/TESIS\ /git_neurocovid/tesis_Figueroa/BEHAVE/COR_rl.txt" # AF
+datafile = "~/Documents/GitHub/tesis_Figueroa/BEHAVE/COR_rl.txt" # PB
+
 #---------------------------------
-
+#AF
 setwd("/Users/alejandra/Desktop/DOCTORADO/2021/TESIS\ /git_neurocovid/tesis_Figueroa/BEHAVE")
-
+#PB
+setwd("~/Documents/GitHub/tesis_Figueroa/BEHAVE")
 
 DATA_RL <-  read.table(datafile, header = TRUE, sep="\t")
 names(DATA_RL)
-DATA_RL$Sub_ID=as.numeric(DATA_RL$SU)
-
-
+DATA_RL$Sub_ID=as.numeric(as.factor(DATA_RL$SU))
+max(DATA_RL$Sub_ID)
+length(unique(DATA_RL$Sub_ID[DATA_RL$GR==" controles"]))
+length(unique(DATA_RL$Sub_ID[DATA_RL$GR==" pacientes"]))
 
 # Prepare the data for JAGS
 
@@ -184,24 +188,19 @@ forIDX = rbind(forIDX0m,forIDX1m,forIDX2m)
 friedman.test(behavior_Shift ~ adap|Sub_ID, data=forIDX)
 aggregate(behavior_Shift ~ adap, data=forIDX, FUN=mean)
 
-
-
 ####
 
 
 
 
 
+#cor.test(ACUg$accuracy[forMODEL$acu_g>0.6],forIDX0$behavior_Shift[forMODEL$acu_g>0.6], method = "spearman" )
+#cor.test(ACU$accuracy[forMODEL$acu_g>0.6],forIDX0$behavior_Shift[forMODEL$acu_g>0.6] , method = "spearman" )
 
+#cor.test(ACUg$accuracy[forMODEL$acu_g>0.6],forIDX1$behavior_Shift[forMODEL$acu_g>0.6], method = "spearman" )
+#cor.test(ACU$accuracy[forMODEL$acu_g>0.6],forIDX1$behavior_Shift[forMODEL$acu_g>0.6] , method = "spearman" )
 
-
-cor.test(ACUg$accuracy[forMODEL$acu_g>0.6],forIDX0$behavior_Shift[forMODEL$acu_g>0.6], method = "spearman" )
-cor.test(ACU$accuracy[forMODEL$acu_g>0.6],forIDX0$behavior_Shift[forMODEL$acu_g>0.6] , method = "spearman" )
-
-cor.test(ACUg$accuracy[forMODEL$acu_g>0.6],forIDX1$behavior_Shift[forMODEL$acu_g>0.6], method = "spearman" )
-cor.test(ACU$accuracy[forMODEL$acu_g>0.6],forIDX1$behavior_Shift[forMODEL$acu_g>0.6] , method = "spearman" )
-
-cor.test(R.E.seqG[forMODEL$acu_g>0.6,3],forIDX0$behavior_Shift[forMODEL$acu_g>0.6] , method = "spearman" )
+#cor.test(R.E.seqG[forMODEL$acu_g>0.6,3],forIDX0$behavior_Shift[forMODEL$acu_g>0.6] , method = "spearman" )
 
 
 forMODEL = data.frame(shift_noA = (forIDX0$behavior_Shift),
@@ -220,18 +219,20 @@ summary(modelo_lineal)
 scatter.smooth(forMODEL$proactive[forMODEL$acu_g>0.2],forIDX1$behavior_Shift[forMODEL$acu_g>0.2] ,span=1.5)   
 
 
-RT = glmer(I(Resp==1) ~ Bd1 +Bd2  + prob  + (1 +  Bd1 + Bd2   + prob | Sub), family = binomial, data = DATA_RL)
+RT = glmer(I(Resp==1) ~ Bd1 +Bd2  + prob  + (1 +  Bd1 + Bd2   + prob | Sub_ID), family = binomial, data = DATA_RL)
 summary(RT)
 
 
 y   = as.numeric(DATA_RL$Resp==1) # Left choice 
 
+feedback_left = (DATA_RL$F*(DATA_RL$Resp==1)) + ((1-DATA_RL$F)*(1-(DATA_RL$Resp==1)))
 
 dat <- dump.format(list(y=as.numeric(DATA_RL$Resp==1),
                         Bd1=DATA_RL$Bd1,
                         Bd2=DATA_RL$Bd2,
                         prob=DATA_RL$prob,
                         feedback=DATA_RL$F,
+                        feedback_left = feedback_left,
                         ID=ID,
                         nT=nT,
                         s=ID,
