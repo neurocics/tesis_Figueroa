@@ -9,14 +9,14 @@ Sujetos={{
 'MMPM_06011977' % 'RL GN WM' 
 'S_WL_25051979' % 'RL GN WM'
 'CAPG_27061969' % 'RL GN WM'
-%'MJDD_01101984'
+...'MJDD_01101984'
 }',{% 'RL GN WM' 
 'CEAS_23071992' % 'RL GN WM' 
 'CAHG_27061988' % 'RL GN WM' 
 'YDCL_11021994' % 'RL GN WM' 
 'B_FE_24011989' % 'RL GN WM' 
 'MEFR_14061991' % 'RL GN WM' 
-%'SNCS_22121989' % 'RL GN WM' 
+'SNCS_22121989' % 'RL GN WM' 
 'MAAO_15081988' % 'RL GN WM'  
 'GRCN_21111979' % 'RL GN WM'  
 'KXMS_13061971' % 'RL GN WM' 
@@ -148,8 +148,8 @@ GLAN = timefreq_stata([],cfg);
 %save 'MS_WM_MODEL_ML_SMP_noise2';
 %save WM_M4_P10C10
 
-if 0 % fix time 
-load('LAN_WM_MODEL_ML_SMP_noise2.mat')
+if 1 % fix time 
+load('LAN_GN_MODEL_NGO_nGO_nNGP_G_pG_Lf_noise2.mat')
 GLAN.timefreq.time=LAN.freq.model.time;
     
 end

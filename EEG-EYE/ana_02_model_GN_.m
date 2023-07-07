@@ -7,16 +7,16 @@
 clear
 % eeg analisis 
 Sujetos = {{
-%'CFOI_23101987' % 'RL WM GN'     %
-%'CAMS_24101973' % 'RL WM GN'  %
-%'FLFS_08081990' % 'RL GN WM'  % 
-%'GAMY_03071978' % RL GN WM'  % 
-%'K_BA_22111991' % RL GN WM % 
-%'KSDG_20051983' % RL GN WM %  
-%'MMPM_06011977' % 'RL GN WM' 
+'CFOI_23101987' % 'RL WM GN'     %
+'CAMS_24101973' % 'RL WM GN'  %
+'FLFS_08081990' % 'RL GN WM'  % 
+'GAMY_03071978' % RL GN WM'  % 
+'K_BA_22111991' % RL GN WM % 
+'KSDG_20051983' % RL GN WM %  
+'MMPM_06011977' % 'RL GN WM' 
 'S_WL_25051979' % 'RL GN WM'
 'CAPG_27061969' % 'RL GN WM'
-%'MJDD_01101984'
+'MJDD_01101984'
 }',{% 'RL GN WM' 
 'CEAS_23071992' % 'RL GN WM' 
 'CAHG_27061988' % 'RL GN WM' 
@@ -71,9 +71,15 @@ for nT = {'GN'}
     if ~exist ([ PATH_MAT 'LAN_' TAREA '_EEG_interp_freq_lapla.mat' ], 'file')
       fprintf(['No data  ' SU ' \n'])  
       continue
-    elseif ~OVERWRITE &&  exist ([ PATH_MAT 'LAN_' TAREA '_MODEL_NGO_nGO_nNGP_G_pG_Lf_noise2.mat' ], 'file')
+    elseif  exist ([ PATH_MAT 'LAN_' TAREA '_MODEL_NGO_nGO_nNGP_G_pG_Lf_noise2.mat' ], 'file')
       fprintf(['modelo listos  OK ' SU ' \n'])  
-      continue
+      load ([ PATH_MAT 'LAN_' TAREA '_MODEL_NGO_nGO_nNGP_G_pG_Lf_noise2.mat' ], 'LAN')
+   
+      if any(isnan(LAN.freq.model.b{1}(:)))
+          fprintf(['pero ... modelo malo se rehace ' SU ' \n'])  
+      else
+          continue
+      end
     end
 
     cd([PATH_MAT ])
@@ -226,7 +232,7 @@ Seq(ind) = 1-Seq(ind-1) ;
          [w, ww] =  lan_model_stat(FT(:,:,T1:T2,:),ones(size(NGO(~noLAN))),....
              NGO(~noLAN), ...
              GO(~noLAN).*Seq(~noLAN)  ,NGO(~noLAN).*Seq(~noLAN), ...
-             GOOD(~noLAN),pGOOD(~noLAN),....
+             ....GOOD(~noLAN),pGOOD(~noLAN),....
              LEFT(~noLAN), cfgM);
          
          LAN.freq.model.t =ww.t;
@@ -248,7 +254,8 @@ Seq(ind) = 1-Seq(ind-1) ;
              NGO(~noLAN), ...nGO(~noLAN),...
              GO(~noLAN).*Seq(~noLAN), ....
              NGO(~noLAN).*Seq(~noLAN), ...
-             GOOD(~noLAN),pGOOD(~noLAN),LEFT(~noLAN),NoiseLevel(~noLAN),LowSignal(~noLAN),cfgM);         
+            .... GOOD(~noLAN),pGOOD(~noLAN),
+            LEFT(~noLAN),NoiseLevel(~noLAN),LowSignal(~noLAN),cfgM);         
          LAN.freq.model.t =ww.t;
          LAN.freq.model.p= w;
          LAN.freq.model.b= ww.b;
